@@ -230,8 +230,8 @@ export class EPGServer {
       gap: 15px;
     }
     h1 img {
-      width: 192px;
-      height: 192px;
+      width: 144px;
+      height: 144px;
     }
     .endpoint {
       background: #f9f9f9;
@@ -267,7 +267,7 @@ export class EPGServer {
 </head>
 <body>
   <div class="container">
-    <h1><img src="/icon.png" alt="HDHomeRun EPG Icon"> HDHomeRun EPG Server v2.0</h1>
+    <h1><img src="/icon.png" alt="HDHomeRun EPG Icon"> HDHomeRun2EPG</h1>
     <p>Electronic Program Guide (EPG) to XMLTV converter</p>
 
     <div class="endpoint">

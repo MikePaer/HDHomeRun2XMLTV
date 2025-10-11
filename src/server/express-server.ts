@@ -230,8 +230,8 @@ export class EPGServer {
       gap: 15px;
     }
     h1 img {
-      width: 48px;
-      height: 48px;
+      width: 192px;
+      height: 192px;
     }
     .endpoint {
       background: #f9f9f9;

@@ -1,6 +1,6 @@
-# HDHomeRun EPG to XMLTV Converter
+# HDHomeRun2XMLTV
 
-A Node.js/TypeScript server that fetches Electronic Program Guide (EPG) data directly from your HDHomeRun device and serves it as standard XMLTV format for Plex, Jellyfin, Emby, and other media servers.
+A Node.js/TypeScript server that fetches Electronic Program Guide (EPG) data directly from your HDHomeRun device and converts it to standard XMLTV format for Plex, Jellyfin, Emby, and other media servers.
 
 ## Features
 
@@ -163,8 +163,8 @@ http://[SERVER-IP]:8083/epg.xml?dummy=2hr&days=1
 
 ```bash
 # Clone repository
-git clone https://github.com/metaColin/HDHomeRun2Epg.git
-cd HDHomeRun2Epg
+git clone https://github.com/metaColin/HDHomeRun2XMLTV.git
+cd HDHomeRun2XMLTV
 
 # Install dependencies
 npm install
@@ -272,5 +272,5 @@ Built to help HDHomeRun users avoid unnecessary Schedules Direct subscriptions w
 
 ## Support
 
-- **Issues:** https://github.com/metaColin/HDHomeRun2Epg/issues
-- **Documentation:** https://github.com/metaColin/HDHomeRun2Epg
+- **Issues:** https://github.com/metaColin/HDHomeRun2XMLTV/issues
+- **Documentation:** https://github.com/metaColin/HDHomeRun2XMLTV

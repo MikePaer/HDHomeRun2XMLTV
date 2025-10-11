@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <Container version="2">
-  <Name>HDHomeRun-EPG2XML</Name>
+  <Name>HDHomeRun2XMLTV</Name>
   <Repository>ghcr.io/metacolin/hdhr-epg2xml:latest</Repository>
   <Registry>https://ghcr.io</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Support>https://github.com/metaColin/HDHR-EPG2XML-for-Unraid/issues</Support>
-  <Project>https://github.com/metaColin/HDHR-EPG2XML-for-Unraid</Project>
-  <Overview>HDHomeRun EPG to XMLTV converter for Plex, Jellyfin, and Emby. Fetches EPG data directly from your HDHomeRun device and serves it via HTTP in standard XMLTV format. Features memory-efficient streaming, versioned EPG files, dummy programming for empty channels, and flexible query parameters for on-demand customization.</Overview>
+  <Support>https://github.com/metaColin/HDHomeRun2XMLTV/issues</Support>
+  <Project>https://github.com/metaColin/HDHomeRun2XMLTV</Project>
+  <Overview>HDHomeRun to XMLTV converter for Plex, Jellyfin, and Emby. Fetches EPG data directly from your HDHomeRun device and converts it to standard XMLTV format. Features memory-efficient streaming, versioned EPG files, dummy programming for empty channels, and flexible query parameters for on-demand customization.</Overview>
   <Category>MediaApp:Other MediaServer:Other</Category>
   <WebUI>http://[IP]:[PORT:8083]/</WebUI>
-  <TemplateURL>https://raw.githubusercontent.com/metaColin/HDHR-EPG2XML-for-Unraid/main/unraid-template.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/metaColin/HDHR-EPG2XML-for-Unraid/main/icon.png</Icon>
+  <TemplateURL>https://raw.githubusercontent.com/metaColin/HDHomeRun2XMLTV/main/unraid-template.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/metaColin/HDHomeRun2XMLTV/main/icon.png</Icon>
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>

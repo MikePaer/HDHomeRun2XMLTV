@@ -206,7 +206,7 @@ export class EPGServer {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HDHomeRun EPG Server</title>
+  <title>HDHomeRun2XMLTV</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -268,8 +268,8 @@ export class EPGServer {
 </head>
 <body>
   <div class="container">
-    <h1><img src="/icon.png" alt="HDHomeRun EPG Icon"> HDHomeRun2EPG</h1>
-    <p>Electronic Program Guide (EPG) to XMLTV converter</p>
+    <h1><img src="/icon.png" alt="HDHomeRun2XMLTV Icon"> HDHomeRun2XMLTV</h1>
+    <p>Convert HDHomeRun EPG data to XMLTV format</p>
 
     <div class="endpoint">
       <h3>EPG Data</h3>

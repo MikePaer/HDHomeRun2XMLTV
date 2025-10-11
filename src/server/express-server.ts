@@ -223,7 +223,7 @@ export class EPGServer {
     }
     h1 {
       color: #333;
-      border-bottom: 2px solid #4CAF50;
+      border-bottom: 2px solid #90c43e;
       padding-bottom: 10px;
       display: flex;
       align-items: center;
@@ -237,12 +237,12 @@ export class EPGServer {
       background: #f9f9f9;
       padding: 15px;
       margin: 15px 0;
-      border-left: 4px solid #4CAF50;
+      border-left: 4px solid #90c43e;
       border-radius: 5px;
     }
     .endpoint h3 {
       margin-top: 0;
-      color: #4CAF50;
+      color: #90c43e;
     }
     .endpoint a {
       color: #2196F3;
@@ -252,11 +252,12 @@ export class EPGServer {
     }
     .endpoint a:hover {
       text-decoration: underline;
+      color: #90c43e;
     }
     .status {
       margin-top: 20px;
       padding: 15px;
-      background: #e8f5e9;
+      background: #f0f7e5;
       border-radius: 5px;
     }
     .description {

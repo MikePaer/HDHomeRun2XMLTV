@@ -1,0 +1,57 @@
+services:
+  hdhr-epg:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hdhr-epg-server
+    image: hdhr-epg2xml:latest
+    restart: unless-stopped
+
+    ports:
+      - "8083:8083"
+
+    environment:
+      # HDHomeRun Configuration
+      HDHOMERUN_HOST: ${HDHOMERUN_HOST:-192.168.1.100}
+
+      # Server Configuration
+      WEB_PORT: 8083
+      NODE_ENV: production
+
+      # EPG Configuration
+      CRON_SCHEDULE: ${CRON_SCHEDULE:-0 3 * * *}
+      DAYS: ${DAYS:-7}
+      HOURS_INCREMENT: ${HOURS_INCREMENT:-3}
+
+      # Timezone
+      TZ: ${TZ:-America/Chicago}
+
+      # Feature Flags
+      RUN_ON_START: ${RUN_ON_START:-true}
+      ENABLE_DUMMY_PROGRAMMING: ${ENABLE_DUMMY_PROGRAMMING:-true}
+
+      # Dummy Programming Configuration
+      DUMMY_PROGRAM_TITLE: ${DUMMY_PROGRAM_TITLE:-No Information}
+      DUMMY_PROGRAM_DESC: ${DUMMY_PROGRAM_DESC:-No program information is currently available for {channel}.}
+
+      # File Paths
+      OUTPUT_DIR: /app/output
+      EPG_FILENAME: epg.xml
+
+    volumes:
+      # Persist EPG files
+      - ./output:/app/output
+
+    networks:
+      - hdhr-network
+
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8083/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 30s
+      timeout: 10s
+      start_period: 40s
+      retries: 3
+
+networks:
+  hdhr-network:
+    driver: bridge

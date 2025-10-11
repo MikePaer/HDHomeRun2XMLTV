@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>HDHomeRun-EPG2XML</Name>
+  <Repository>ghcr.io/metacolin/hdhr-epg2xml:latest</Repository>
+  <Registry>https://ghcr.io</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/metaColin/HDHR-EPG2XML-for-Unraid/issues</Support>
+  <Project>https://github.com/metaColin/HDHR-EPG2XML-for-Unraid</Project>
+  <Overview>HDHomeRun EPG to XMLTV converter for Plex, Jellyfin, and Emby. Fetches EPG data directly from your HDHomeRun device and serves it via HTTP in standard XMLTV format. Features memory-efficient streaming, versioned EPG files, dummy programming for empty channels, and flexible query parameters for on-demand customization.</Overview>
+  <Category>MediaApp:Other MediaServer:Other</Category>
+  <WebUI>http://[IP]:[PORT:8083]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/metaColin/HDHR-EPG2XML-for-Unraid/main/unraid-template.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/metaColin/HDHR-EPG2XML-for-Unraid/main/icon.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>HDHomeRun device on your local network</Requires>
+  <Config Name="Web UI Port" Target="8083" Default="8083" Mode="tcp" Description="HTTP port for EPG server" Type="Port" Display="always" Required="true" Mask="false">8083</Config>
+  <Config Name="EPG Output" Target="/app/output" Default="/mnt/user/appdata/hdhr-epg" Mode="rw" Description="Directory to store EPG XML files" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/hdhr-epg</Config>
+  <Config Name="HDHomeRun Host" Target="HDHOMERUN_HOST" Default="" Mode="" Description="IP address of your HDHomeRun device (e.g., 192.168.1.100)" Type="Variable" Display="always" Required="true" Mask="false"/>
+  <Config Name="Timezone" Target="TZ" Default="America/Chicago" Mode="" Description="Timezone for scheduling (e.g., America/Chicago, America/New_York)" Type="Variable" Display="always" Required="true" Mask="false">America/Chicago</Config>
+  <Config Name="Cron Schedule" Target="CRON_SCHEDULE" Default="0 3 * * *" Mode="" Description="Update schedule in cron format (default: 3 AM daily)" Type="Variable" Display="advanced" Required="false" Mask="false">0 3 * * *</Config>
+  <Config Name="EPG Days" Target="DAYS" Default="7" Mode="" Description="Number of days of EPG data to fetch (1-14)" Type="Variable" Display="advanced" Required="false" Mask="false">7</Config>
+  <Config Name="Hours Increment" Target="HOURS_INCREMENT" Default="3" Mode="" Description="Hour increment for EPG fetching (1-6)" Type="Variable" Display="advanced" Required="false" Mask="false">3</Config>
+  <Config Name="Run on Start" Target="RUN_ON_START" Default="true" Mode="" Description="Fetch EPG immediately on container start" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Enable Dummy Programming" Target="ENABLE_DUMMY_PROGRAMMING" Default="true" Mode="" Description="Add placeholder programs for channels without EPG" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Dummy Program Title" Target="DUMMY_PROGRAM_TITLE" Default="No Information" Mode="" Description="Title for dummy programmes" Type="Variable" Display="advanced" Required="false" Mask="false">No Information</Config>
+  <Config Name="Dummy Program Description" Target="DUMMY_PROGRAM_DESC" Default="No program information is currently available for {channel}." Mode="" Description="Description template for dummy programmes (use {channel} for channel name)" Type="Variable" Display="advanced" Required="false" Mask="false">No program information is currently available for {channel}.</Config>
+</Container>

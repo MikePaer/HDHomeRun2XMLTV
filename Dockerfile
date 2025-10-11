@@ -32,6 +32,9 @@ RUN npm ci --only=production && \
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist
 
+# Copy icon for web dashboard
+COPY icon.png ./icon.png
+
 # Create output directory
 RUN mkdir -p /app/output && \
     chown -R node:node /app

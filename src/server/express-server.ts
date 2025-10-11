@@ -44,6 +44,9 @@ export class EPGServer {
     // Health check endpoint
     this.app.get('/health', this.serveHealth.bind(this));
 
+    // Icon endpoint
+    this.app.get('/icon.png', this.serveIcon.bind(this));
+
     // Manual update trigger
     this.app.post('/update', this.triggerUpdate.bind(this));
 
@@ -179,6 +182,17 @@ export class EPGServer {
     res.send('OK');
   }
 
+  private async serveIcon(_req: Request, res: Response) {
+    try {
+      const iconPath = path.join(process.cwd(), 'icon.png');
+      await fs.access(iconPath);
+      res.set('Content-Type', 'image/png');
+      res.sendFile(iconPath);
+    } catch {
+      res.status(404).send('Icon not found');
+    }
+  }
+
   private triggerUpdate(_req: Request, res: Response) {
     // This will be implemented in the orchestrator
     res.status(501).json({
@@ -211,6 +225,13 @@ export class EPGServer {
       color: #333;
       border-bottom: 2px solid #4CAF50;
       padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    h1 img {
+      width: 48px;
+      height: 48px;
     }
     .endpoint {
       background: #f9f9f9;
@@ -246,18 +267,18 @@ export class EPGServer {
 </head>
 <body>
   <div class="container">
-    <h1>📺 HDHomeRun EPG Server v2.0</h1>
+    <h1><img src="/icon.png" alt="HDHomeRun EPG Icon"> HDHomeRun EPG Server v2.0</h1>
     <p>Electronic Program Guide (EPG) to XMLTV converter</p>
 
     <div class="endpoint">
       <h3>EPG Data</h3>
-      <a href="/epg.xml">/epg.xml</a> - Standard format<br>
-      <a href="/epg.xml?dummy=1hr">/epg.xml?dummy=1hr</a> - With 1-hour dummy blocks<br>
-      <a href="/epg.xml?dummy=30min">/epg.xml?dummy=30min</a> - With 30-minute dummy blocks<br>
-      <a href="/epg.xml?days=3">/epg.xml?days=3</a> - Limited to 3 days<br>
-      <a href="/epg.xml?dummy=1hr&days=3">/epg.xml?dummy=1hr&days=3</a> - Combined<br>
-      <a href="/xmltv.xml">/xmltv.xml</a> (alias)<br>
-      <a href="/guide.xml">/guide.xml</a> (alias)
+      <a href="/epg.xml" target="_blank">/epg.xml</a> - Standard format<br>
+      <a href="/epg.xml?dummy=1hr" target="_blank">/epg.xml?dummy=1hr</a> - With 1-hour dummy blocks<br>
+      <a href="/epg.xml?dummy=30min" target="_blank">/epg.xml?dummy=30min</a> - With 30-minute dummy blocks<br>
+      <a href="/epg.xml?days=3" target="_blank">/epg.xml?days=3</a> - Limited to 3 days<br>
+      <a href="/epg.xml?dummy=1hr&days=3" target="_blank">/epg.xml?dummy=1hr&days=3</a> - Combined<br>
+      <a href="/xmltv.xml" target="_blank">/xmltv.xml</a> (alias)<br>
+      <a href="/guide.xml" target="_blank">/guide.xml</a> (alias)
       <p class="description">
         XMLTV formatted EPG data for Plex, Jellyfin, Emby<br>
         <strong>Parameters:</strong><br>
@@ -269,13 +290,13 @@ export class EPGServer {
 
     <div class="endpoint">
       <h3>Server Status</h3>
-      <a href="/status">/status</a>
+      <a href="/status" target="_blank">/status</a>
       <p class="description">JSON with current server status and last update time</p>
     </div>
 
     <div class="endpoint">
       <h3>Health Check</h3>
-      <a href="/health">/health</a>
+      <a href="/health" target="_blank">/health</a>
       <p class="description">Simple health check endpoint for monitoring</p>
     </div>
 

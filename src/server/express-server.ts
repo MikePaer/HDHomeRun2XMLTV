@@ -51,24 +51,85 @@ export class EPGServer {
     this.app.get('/', this.serveRoot.bind(this));
   }
 
-  private async serveEPG(_req: Request, res: Response) {
+  private async serveEPG(req: Request, res: Response) {
     const epgPath = path.join(this.config.output.directory, this.config.output.filename);
 
     try {
       // Check if file exists
       await fs.access(epgPath);
 
-      // Read and serve file
-      const epgContent = await fs.readFile(epgPath, 'utf-8');
+      const dummyParam = req.query.dummy as string | undefined;
+      const daysParam = req.query.days as string | undefined;
 
-      res.set({
-        'Content-Type': 'application/xml; charset=UTF-8',
-        'Cache-Control': 'public, max-age=1800', // Cache for 30 minutes
-        'Access-Control-Allow-Origin': '*',
-      });
+      // If no modifications needed, serve file directly
+      if (!dummyParam && !daysParam) {
+        const epgContent = await fs.readFile(epgPath, 'utf-8');
+        res.set({
+          'Content-Type': 'application/xml; charset=UTF-8',
+          'Cache-Control': 'public, max-age=1800', // Cache for 30 minutes
+          'Access-Control-Allow-Origin': '*',
+        });
+        res.send(epgContent);
+        console.log('Served EPG successfully');
+        return;
+      }
 
-      res.send(epgContent);
-      console.log('Served EPG successfully');
+      // Modifications requested - use streaming approach
+      const tempDir = path.join(this.config.output.directory, 'temp');
+      await fs.mkdir(tempDir, { recursive: true });
+
+      const tempFile = path.join(tempDir, `epg-${Date.now()}.xml`);
+      let currentFile = epgPath;
+
+      try {
+        // Apply days filter first if requested
+        if (daysParam) {
+          console.log(`Applying days filter: ${daysParam} days`);
+          const { streamFilterEPG } = await import('../xmltv/streaming-filter');
+          const filteredFile = `${tempFile}.filtered`;
+          await streamFilterEPG(currentFile, filteredFile, {
+            days: parseInt(daysParam, 10),
+          });
+          currentFile = filteredFile;
+        }
+
+        // Apply dummy programming if requested
+        if (dummyParam && this.config.dummyProgramming?.enabled) {
+          console.log(`Applying dummy programming with duration: ${dummyParam}`);
+          const { streamDummyProgramming } = await import('../xmltv/streaming-dummy');
+          const dummyFile = `${tempFile}.dummy`;
+          await streamDummyProgramming(
+            currentFile,
+            dummyFile,
+            {
+              duration: dummyParam,
+              title: this.config.dummyProgramming.title,
+              description: this.config.dummyProgramming.description,
+              daysFilter: daysParam ? parseInt(daysParam, 10) : undefined,
+            },
+            this.config.hdhomerun.host
+          );
+          currentFile = dummyFile;
+        }
+
+        // Read final result and send
+        const finalContent = await fs.readFile(currentFile, 'utf-8');
+
+        res.set({
+          'Content-Type': 'application/xml; charset=UTF-8',
+          'Cache-Control': 'public, max-age=1800',
+          'Access-Control-Allow-Origin': '*',
+        });
+        res.send(finalContent);
+        console.log('Served modified EPG successfully');
+      } finally {
+        // Clean up temp files
+        try {
+          await fs.rm(tempDir, { recursive: true, force: true });
+        } catch {
+          // Ignore cleanup errors
+        }
+      }
     } catch (error) {
       console.error('Error serving EPG:', error);
       res.status(404).send(
@@ -190,10 +251,20 @@ export class EPGServer {
 
     <div class="endpoint">
       <h3>EPG Data</h3>
-      <a href="/epg.xml">/epg.xml</a><br>
+      <a href="/epg.xml">/epg.xml</a> - Standard format<br>
+      <a href="/epg.xml?dummy=1hr">/epg.xml?dummy=1hr</a> - With 1-hour dummy blocks<br>
+      <a href="/epg.xml?dummy=30min">/epg.xml?dummy=30min</a> - With 30-minute dummy blocks<br>
+      <a href="/epg.xml?days=3">/epg.xml?days=3</a> - Limited to 3 days<br>
+      <a href="/epg.xml?dummy=1hr&days=3">/epg.xml?dummy=1hr&days=3</a> - Combined<br>
       <a href="/xmltv.xml">/xmltv.xml</a> (alias)<br>
       <a href="/guide.xml">/guide.xml</a> (alias)
-      <p class="description">XMLTV formatted EPG data for Plex, Jellyfin, Emby</p>
+      <p class="description">
+        XMLTV formatted EPG data for Plex, Jellyfin, Emby<br>
+        <strong>Parameters:</strong><br>
+        • dummy=30min|1hr|2hr|3hr|6hr (fills channels with no EPG)<br>
+        • days=1-7 (limits EPG duration, streaming efficient)<br>
+        <em>Note: Memory-efficient streaming for all block durations</em>
+      </p>
     </div>
 
     <div class="endpoint">

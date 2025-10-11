@@ -3,6 +3,7 @@
  * Main entry point
  */
 
+import 'dotenv/config';
 import { getConfig } from './types/config';
 import { EPGServer } from './server/express-server';
 import { EPGUpdater } from './scheduler/epg-updater';

@@ -22,7 +22,7 @@ A Node.js/TypeScript server that fetches Electronic Program Guide (EPG) data dir
 ```yaml
 services:
   hdhr-epg:
-    image: ghcr.io/metacolin/hdhr-epg2xml:latest
+    image: ghcr.io/metacolin/hdhomerun2xmltv:latest
     container_name: hdhr-epg-server
     restart: unless-stopped
 
@@ -57,7 +57,7 @@ docker run -d \
   -e HDHOMERUN_HOST=192.168.1.100 \
   -e TZ=America/Chicago \
   -v ./epg-output:/app/output \
-  ghcr.io/metacolin/hdhr-epg2xml:latest
+  ghcr.io/metacolin/hdhomerun2xmltv:latest
 ```
 
 ## Unraid Installation
@@ -200,7 +200,7 @@ docker run -d \
 docker logs -f hdhr-epg-test
 
 # Or use the public image
-docker pull ghcr.io/metacolin/hdhr-epg2xml:latest
+docker pull ghcr.io/metacolin/hdhomerun2xmltv:latest
 ```
 
 ## Architecture

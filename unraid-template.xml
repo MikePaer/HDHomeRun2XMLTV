@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>HDHomeRun2XMLTV</Name>
-  <Repository>ghcr.io/metacolin/hdhr-epg2xml:latest</Repository>
+  <Repository>ghcr.io/metacolin/hdhomerun2xmltv:latest</Repository>
   <Registry>https://ghcr.io</Registry>
   <Network>bridge</Network>
   <MyIP/>

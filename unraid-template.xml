@@ -23,7 +23,7 @@
   <Requires>HDHomeRun device on your local network</Requires>
   <Config Name="Web UI Port" Target="8083" Default="8083" Mode="tcp" Description="HTTP port for EPG server" Type="Port" Display="always" Required="true" Mask="false">8083</Config>
   <Config Name="EPG Output" Target="/app/output" Default="/mnt/user/appdata/hdhr-epg" Mode="rw" Description="Directory to store EPG XML files" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/hdhr-epg</Config>
-  <Config Name="HDHomeRun Host" Target="HDHOMERUN_HOST" Default="" Mode="" Description="IP address of your HDHomeRun device (e.g., 192.168.1.100)" Type="Variable" Display="always" Required="true" Mask="false"/>
+  <Config Name="HDHomeRun Host" Target="HDHOMERUN_HOST" Default="hdhomerun.local" Mode="" Description="Hostname or IP address of your HDHomeRun device. Try hdhomerun.local first, or use IP address (e.g., 192.168.1.100) if that doesn't work." Type="Variable" Display="always" Required="true" Mask="false">hdhomerun.local</Config>
   <Config Name="Timezone" Target="TZ" Default="America/Chicago" Mode="" Description="Timezone for scheduling (e.g., America/Chicago, America/New_York)" Type="Variable" Display="always" Required="true" Mask="false">America/Chicago</Config>
   <Config Name="Cron Schedule" Target="CRON_SCHEDULE" Default="0 3 * * *" Mode="" Description="Update schedule in cron format (default: 3 AM daily)" Type="Variable" Display="advanced" Required="false" Mask="false">0 3 * * *</Config>
   <Config Name="EPG Days" Target="DAYS" Default="7" Mode="" Description="Number of days of EPG data to fetch (1-14)" Type="Variable" Display="advanced" Required="false" Mask="false">7</Config>

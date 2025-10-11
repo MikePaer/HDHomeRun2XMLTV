@@ -36,11 +36,7 @@ COPY --from=builder /app/dist ./dist
 COPY icon.png ./icon.png
 
 # Create output directory
-RUN mkdir -p /app/output && \
-    chown -R node:node /app
-
-# Switch to non-root user
-USER node
+RUN mkdir -p /app/output
 
 # Expose HTTP port
 EXPOSE 8083

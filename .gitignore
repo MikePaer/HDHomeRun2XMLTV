@@ -44,3 +44,8 @@ coverage/
 
 # Design files
 *.psd
+
+# Private files - never commit
+/notes/
+CLAUDE.md
+.claude/

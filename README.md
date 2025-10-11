@@ -264,7 +264,30 @@ This project is in active development. Contributions, issues, and feature reques
 
 ## License
 
-GPL-3.0 License
+
+  Use AGPL-3.0 with a commercial licensing option:
+
+  # License
+
+  This project is dual-licensed:
+
+  - **AGPL-3.0** for open-source use
+  - **Commercial License** available for proprietary use
+
+  ## Open Source License (AGPL-3.0)
+
+  This software is free to use, modify, and distribute under the GNU Affero General Public License v3.0,
+  provided that:
+  - You give appropriate credit
+  - You share your modifications under the same license
+  - If you run a modified version as a service, you must make your source code available
+
+  ## Commercial License
+
+  If you want to use this software in a commercial product without open-sourcing your code, please contact
+  me for a commercial license.
+
+  Contact via github or [kofi](https://ko-fi.com/metacolin/)
 
 ## Credits
 
@@ -274,3 +297,13 @@ Built to help HDHomeRun users avoid unnecessary Schedules Direct subscriptions w
 
 - **Issues:** https://github.com/metaColin/HDHomeRun2XMLTV/issues
 - **Documentation:** https://github.com/metaColin/HDHomeRun2XMLTV
+
+---
+
+## ☕ Support This Project
+
+If you find HDHomeRun2XMLTV useful and it's saving you from a Schedules Direct subscription, consider supporting its development:
+
+**[☕ Buy me a coffee on Ko-fi](https://ko-fi.com/metacolin/)**
+
+Your support helps maintain and improve this project. Thank you!

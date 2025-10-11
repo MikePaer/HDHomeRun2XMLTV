@@ -63,6 +63,8 @@ export class EPGServer {
 
       const dummyParam = req.query.dummy as string | undefined;
       const daysParam = req.query.days as string | undefined;
+      const dummyTitleParam = req.query.dummyTitle as string | undefined;
+      const dummyDescParam = req.query.dummyDesc as string | undefined;
 
       // If no modifications needed, serve file directly
       if (!dummyParam && !daysParam) {
@@ -82,7 +84,17 @@ export class EPGServer {
       await fs.mkdir(tempDir, { recursive: true });
 
       const tempFile = path.join(tempDir, `epg-${Date.now()}.xml`);
+
+      // If custom dummy title/desc requested, start from non-dummy file
       let currentFile = epgPath;
+      if ((dummyTitleParam || dummyDescParam) && dummyParam) {
+        // Resolve symlink to find the actual file
+        const realPath = await fs.realpath(epgPath);
+        // If it's a -with-dummy file, use the original instead
+        if (realPath.includes('-with-dummy.xml')) {
+          currentFile = realPath.replace('-with-dummy.xml', '.xml');
+        }
+      }
 
       try {
         // Apply days filter first if requested
@@ -106,8 +118,8 @@ export class EPGServer {
             dummyFile,
             {
               duration: dummyParam,
-              title: this.config.dummyProgramming.title,
-              description: this.config.dummyProgramming.description,
+              title: dummyTitleParam || this.config.dummyProgramming.title,
+              description: dummyDescParam || this.config.dummyProgramming.description,
               daysFilter: daysParam ? parseInt(daysParam, 10) : undefined,
             },
             this.config.hdhomerun.host
@@ -278,12 +290,15 @@ export class EPGServer {
       <a href="/epg.xml?dummy=30min" target="_blank">/epg.xml?dummy=30min</a> - With 30-minute dummy blocks<br>
       <a href="/epg.xml?days=3" target="_blank">/epg.xml?days=3</a> - Limited to 3 days<br>
       <a href="/epg.xml?dummy=1hr&days=3" target="_blank">/epg.xml?dummy=1hr&days=3</a> - Combined<br>
+      <a href="/epg.xml?dummy=1hr&dummyTitle=Test Program&dummyDesc=Test Description" target="_blank">/epg.xml?dummy=1hr&dummyTitle=Test Program&dummyDesc=Test Description</a> - Custom dummy content<br>
       <a href="/xmltv.xml" target="_blank">/xmltv.xml</a> (alias)<br>
       <a href="/guide.xml" target="_blank">/guide.xml</a> (alias)
       <p class="description">
         XMLTV formatted EPG data for Plex, Jellyfin, Emby<br>
         <strong>Parameters:</strong><br>
         • dummy=30min|1hr|2hr|3hr|6hr (fills channels with no EPG)<br>
+        • dummyTitle=text (override dummy program title)<br>
+        • dummyDesc=text (override dummy program description)<br>
         • days=1-7 (limits EPG duration, streaming efficient)<br>
         <em>Note: Memory-efficient streaming for all block durations</em>
       </p>
@@ -306,6 +321,15 @@ export class EPGServer {
       • HDHomeRun Host: ${this.config.hdhomerun.host}<br>
       • Update Schedule: ${this.config.scheduler.cronSchedule}<br>
       • Port: ${this.config.server.port}
+    </div>
+
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+      <p style="margin: 10px 0;">
+        Find this project helpful? Consider supporting its development
+      </p>
+      <a href="https://ko-fi.com/metacolin/" target="_blank" style="display: inline-block; padding: 10px 20px; background: #90c43e; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+        ☕ Support on Ko-fi
+      </a>
     </div>
   </div>
 </body>

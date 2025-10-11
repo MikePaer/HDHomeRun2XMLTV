@@ -186,7 +186,7 @@ npm start
 
 ```bash
 # Build image
-docker build -t hdhr-epg2xml:latest .
+docker build -t hdhomerun2xmltv:latest .
 
 # Test locally
 docker run -d \
@@ -194,7 +194,7 @@ docker run -d \
   -p 8083:8083 \
   -e HDHOMERUN_HOST=192.168.1.100 \
   -v ./output:/app/output \
-  hdhr-epg2xml:latest
+  hdhomerun2xmltv:latest
 
 # View logs
 docker logs -f hdhr-epg-test

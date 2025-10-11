@@ -1,5 +1,5 @@
 /**
- * HDHomeRun EPG Server
+ * HDHomeRun2XMLTV
  * Main entry point
  */
 
@@ -11,7 +11,7 @@ import { CronScheduler } from './scheduler/cron-scheduler';
 
 async function main() {
   console.log('========================================');
-  console.log('HDHomeRun EPG Server v2.0.0');
+  console.log('HDHomeRun2XMLTV v2.0.0');
   console.log('========================================');
 
   // Load configuration

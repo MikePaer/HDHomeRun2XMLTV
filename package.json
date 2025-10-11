@@ -1,7 +1,7 @@
 {
-  "name": "hdhomerun-epg-server",
+  "name": "hdhomerun2xmltv",
   "version": "2.0.0",
-  "description": "HDHomeRun EPG to XMLTV converter with HTTP server",
+  "description": "HDHomeRun to XMLTV converter with HTTP server",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",

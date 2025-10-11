@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: hdhr-epg-server
-    image: hdhr-epg2xml:latest
+    image: hdhomerun2xmltv:latest
     restart: unless-stopped
 
     ports:

@@ -22,7 +22,7 @@ A Node.js/TypeScript server that fetches Electronic Program Guide (EPG) data dir
 ```yaml
 services:
   hdhr-epg:
-    image: hdhr-epg2xml:latest
+    image: ghcr.io/metacolin/hdhr-epg2xml:latest
     container_name: hdhr-epg-server
     restart: unless-stopped
 
@@ -57,7 +57,7 @@ docker run -d \
   -e HDHOMERUN_HOST=192.168.1.100 \
   -e TZ=America/Chicago \
   -v ./epg-output:/app/output \
-  hdhr-epg2xml:latest
+  ghcr.io/metacolin/hdhr-epg2xml:latest
 ```
 
 ## Unraid Installation
@@ -163,8 +163,8 @@ http://[SERVER-IP]:8083/epg.xml?dummy=2hr&days=1
 
 ```bash
 # Clone repository
-git clone https://github.com/metaColin/HDHR-EPG2XML-for-Unraid.git
-cd HDHR-EPG2XML-for-Unraid
+git clone https://github.com/metaColin/HDHomeRun2Epg.git
+cd HDHomeRun2Epg
 
 # Install dependencies
 npm install
@@ -198,6 +198,9 @@ docker run -d \
 
 # View logs
 docker logs -f hdhr-epg-test
+
+# Or use the public image
+docker pull ghcr.io/metacolin/hdhr-epg2xml:latest
 ```
 
 ## Architecture
@@ -269,5 +272,5 @@ Built to help HDHomeRun users avoid unnecessary Schedules Direct subscriptions w
 
 ## Support
 
-- **Issues:** https://github.com/metaColin/HDHR-EPG2XML-for-Unraid/issues
-- **Documentation:** https://github.com/metaColin/HDHR-EPG2XML-for-Unraid
+- **Issues:** https://github.com/metaColin/HDHomeRun2Epg/issues
+- **Documentation:** https://github.com/metaColin/HDHomeRun2Epg

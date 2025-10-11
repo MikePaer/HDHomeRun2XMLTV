@@ -19,17 +19,22 @@ export class HDHomeRunClient {
   constructor(host: string) {
     this.host = host;
 
-    // Create axios instance with retry logic
+    // Create axios instance with aggressive timeout for fast failure
     this.axiosInstance = axios.create({
-      timeout: 30000, // 30 second timeout
+      timeout: 10000, // 10 second timeout - fail fast
     });
 
-    // Configure retry logic - exponential backoff
+    // Configure retry logic - only 1 retry with short delay
     axiosRetry(this.axiosInstance, {
-      retries: 3,
-      retryDelay: axiosRetry.exponentialDelay,
+      retries: 1, // Only 1 retry - fail fast
+      retryDelay: () => 2000, // 2 second delay between retries
       retryCondition: (error) => {
-        // Retry on network errors and 5xx errors
+        // Only retry on network errors, not DNS resolution failures
+        if (error.code === 'ENOTFOUND' || error.code === 'EAI_AGAIN') {
+          console.error(`DNS resolution failed for ${error.config?.url} - not retrying`);
+          return false; // Don't retry DNS failures
+        }
+        // Retry on other network errors and 5xx errors
         return (
           axiosRetry.isNetworkOrIdempotentRequestError(error) ||
           (error.response?.status ?? 0) >= 500

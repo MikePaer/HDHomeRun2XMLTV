@@ -108,8 +108,8 @@ export class EPGServer {
           currentFile = filteredFile;
         }
 
-        // Apply dummy programming if requested
-        if (dummyParam && this.config.dummyProgramming?.enabled) {
+        // Apply dummy programming if requested via query parameter
+        if (dummyParam) {
           console.log(`Applying dummy programming with duration: ${dummyParam}`);
           const { streamDummyProgramming } = await import('../xmltv/streaming-dummy');
           const dummyFile = `${tempFile}.dummy`;
@@ -118,8 +118,8 @@ export class EPGServer {
             dummyFile,
             {
               duration: dummyParam,
-              title: dummyTitleParam || this.config.dummyProgramming.title,
-              description: dummyDescParam || this.config.dummyProgramming.description,
+              title: dummyTitleParam || this.config.dummyProgramming?.title || 'No Information',
+              description: dummyDescParam || this.config.dummyProgramming?.description || 'No program information is currently available for {channel}.',
               daysFilter: daysParam ? parseInt(daysParam, 10) : undefined,
             },
             this.config.hdhomerun.host

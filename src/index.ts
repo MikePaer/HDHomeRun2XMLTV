@@ -34,18 +34,34 @@ async function main() {
   // Start HTTP server
   await server.start();
 
-  // Run initial update if configured
+  // Run initial update if configured (non-blocking with timeout)
   if (config.scheduler.runOnStart) {
     console.log('\n========== Initial EPG Update ==========');
-    const result = await updater.update();
 
-    if (result.success) {
-      server.updateStatus('success', new Date().toISOString());
-      console.log('Initial EPG update completed successfully');
-    } else {
+    // Run update in background with timeout protection
+    Promise.race([
+      updater.update(),
+      new Promise<{success: false, message: string, error: string}>((resolve) =>
+        setTimeout(() => resolve({
+          success: false,
+          message: 'Initial EPG update timed out',
+          error: 'Update took longer than 60 seconds - will retry on schedule'
+        }), 60000) // 60 second max for initial update
+      )
+    ]).then((result) => {
+      if (result.success) {
+        server.updateStatus('success', new Date().toISOString());
+        console.log('Initial EPG update completed successfully');
+      } else {
+        server.updateStatus('failed', new Date().toISOString());
+        console.error('Initial EPG update failed:', result.error);
+        console.log('Server will continue running - EPG will update on schedule');
+      }
+    }).catch((error) => {
       server.updateStatus('failed', new Date().toISOString());
-      console.error('Initial EPG update failed:', result.error);
-    }
+      console.error('Initial EPG update error:', error);
+      console.log('Server will continue running - EPG will update on schedule');
+    });
   } else {
     console.log('\nSkipping initial EPG update (RUN_ON_START=false)');
   }

@@ -209,7 +209,7 @@ export class EPGServer {
   <title>HDHomeRun2XMLTV</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
       margin: 40px;
       background: #f5f5f5;
     }

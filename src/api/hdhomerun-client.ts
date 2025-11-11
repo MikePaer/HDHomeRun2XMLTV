@@ -150,23 +150,16 @@ export class HDHomeRunClient {
     const url = `${baseUrl}?${params.toString()}`;
 
     const headers = {
-      'Cache-Control': 'no-cache',
-      'Content-Type': 'multipart/form-data',
-      'Accept-Encoding': 'gzip, deflate, br',
-      'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; WebView/3.0) AppleWebKit/537.36',
-    };
-
-    const postData = {
-      AppName: 'HDHomeRun',
-      AppVersion: '20241007',
-      DeviceAuth: deviceAuth,
-      Platform: 'WINDOWS',
-      PlatformInfo: { Vendor: 'Web' },
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:144.0) Gecko/20100101 Firefox/144.0",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "en-US,en;q=0.5",
+      "Accept-Encoding": "gzip, deflate, br",
+      "DNT": "1"
     };
 
     try {
-      const response = await this.axiosInstance.post<EPGResponse>(url, postData, { headers });
+      //const response = await this.axiosInstance.post<EPGResponse>(url, postData, { headers });
+      const response = await this.axiosInstance.get<EPGResponse>(url, { headers });
       return response.data;
     } catch (error) {
       // Handle 403 errors by refreshing DeviceAuth
@@ -174,6 +167,11 @@ export class HDHomeRunClient {
         console.log('Got 403, DeviceAuth may be expired. Refreshing...');
         await this.fetchDeviceAuth();
         throw new Error('DeviceAuth expired, please retry operation');
+      }
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        // potentially bad timestamp, too far in future? Just continue
+        console.log(`HDHomeRun guide API returned 400 bad request, possibly due to no data at the given timestamp (${startTimestamp}). Skipping this chunk.`);
+        return [] as EPGResponse;
       }
 
       console.error('Failed to fetch EPG chunk:', error);
